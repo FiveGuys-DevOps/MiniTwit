@@ -1,1 +1,4 @@
-# DevOps01---2023
+# Skrrrrrt
+
+## How to run
+```$ docker compose up --build```
