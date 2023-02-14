@@ -3,9 +3,9 @@
   {% if request.path == '/public/' %}
     Public Timeline
   {% elif request.path == '/timeline/' %}
-    {{ profile_user.username }}'s Timeline
-  {% else %}
     My Timeline
+  {% else %}
+    {{ profile_user.username }}'s Timeline
   {% endif %}
 {% endblock %}
 {% block body %}
