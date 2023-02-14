@@ -1,6 +1,8 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import Http404, HttpResponseNotFound
 from django.db import connection
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 
 from . import models
 
@@ -38,15 +40,15 @@ def gravatar_url(email, size=80):
 
 
 ### Views
-
+# /, /public
 def timeline(request):
     """Shows a users timeline or if no user is logged in it will
     redirect to the public timeline.  This timeline shows the user's
     messages as well as all the messages of followed users.
     """
     print(("We got a visitor from: " + str(request)))
-    # if not g.user:
-    #     return redirect(url_for('public_timeline'))
+    if not request.user:
+        return redirect('public/')
     
     messages = []
     unflagged = models.Message.objects.filter(flagged=0)
@@ -62,23 +64,97 @@ def timeline(request):
     user_messages = unflagged.filter(author_id=request.user.id)
     messages.extend(user_messages)
 
-    print(request.user.id)
-
-    print(messages)
-
-    # Sort the messages by date
-    # messages = messages.sort(key=lambda x: x.pub_date, reverse=True)[PER_PAGE:]
-
-    # messages = query_db('''
-    #     select message.*, user.* from message, user
-    #     where message.flagged = 0 and message.author_id = user.user_id and (
-    #         user.user_id = ? or
-    #         user.user_id in (select whom_id from follower
-    #                                 where who_id = ?))
-    #     order by message.pub_date desc limit ?''',
-    #     [request.user.id, request.user.id, PER_PAGE])
-
     context = {
         'messages': messages,
     }
     return render(request, '../templates/timeline.html', context)
+
+
+def public_timeline(request):
+    """Displays the latest messages of all users."""
+    # Fetch all messages
+    messages = models.Message.objects.filter(flagged=0)
+
+    # Convert to list of dicts
+    messages = [ dict(message) for message in messages ]
+
+    # Add user info to each message
+    messages = [
+        message.update(
+            models.User.objects.filter(user_id=message.author_id).get(),
+        )
+        for message in messages
+    ]
+    context = {
+        'messages': messages,
+    }
+    return render(request, '../templates/timeline.html', context)
+
+
+def user_timeline(request, username):
+    user = models.User.objects.filter(username=username)
+
+    if not user.exists():
+        return HttpResponseNotFound("Username does not exist")
+    
+    # Check following
+    follower_relation = models.Follower.objects.filter(who_id=request.user.id, whom_id=user.id).get()
+    followed = True if follower_relation else False
+
+    # Fetch all messages
+    messages = models.Message.objects.filter(author_id=user.id)
+
+    # Convert to list of dicts
+    messages = [ dict(message) for message in messages ]
+
+    # Add user info to each message
+    messages = [
+        message.update(
+            models.User.objects.filter(user_id=message.author_id).get(),
+        )
+        for message in messages
+    ]
+    context = {
+        'messages': messages,
+        'followed': followed,
+        'profile_user': user,
+    }
+    return render(request, '../templates/timeline.html', context)
+
+
+
+
+# /login
+def login(request):
+    """ Login """
+    if request.method == "POST":
+        user = authenticate(username = request.POST['username'], password = request.POST['password'])
+        if user is None:
+            return HttpResponseNotFound("Wrong credentials")
+        else:
+            login(request)
+            return redirect('/public')
+    return render(request, '../templates/login.html', {})
+
+# /register
+def register(request):
+    """Shows a users timeline or if no user is logged in it will
+    redirect to the public timeline.  This timeline shows the user's
+    messages as well as all the messages of followed users.
+    """
+    error = None
+    if request.method == "POST":
+        if request.POST['password'] != request.POST['password2']:
+            error = 'The passwords do not match'
+        else:
+            # TODO: Write better secuirty measures skrrrrt
+
+            user = User.objects.create_user(
+                request.POST['username'],
+                request.POST['email'],
+                request.POST['password']
+            )
+            
+            user.save()
+            return redirect('login')
+    return render(request, '../templates/register.html', {'error': error})

@@ -1,16 +1,16 @@
 <!doctype html>
 {% load static %}
 <title>{% block title %}Welcome{% endblock %} | MiniTwit</title>
-<link rel=stylesheet type=text/css href="static/style.css">
+<link rel=stylesheet type=text/css href="/static/style.css">
 <div class=page>
   <h1>MiniTwit</h1>
   <div class=navigation>
-  {% if g.user %}
+  {% if user.is_authenticated %}
     <a href="/timeline">my timeline</a> |
-    <a href="/public_timeline">public timeline</a> |
-    <a href="/logout">sign out [{{ g.user.username }}]</a>
+    <a href="/public">public timeline</a> |
+    <a href="/logout">sign out [{{ user.username }}]</a>
   {% else %}
-    <a href="/public_timeline">public timeline</a> |
+    <a href="/public">public timeline</a> |
     <a href="/register">sign up</a> |
     <a href="/login">sign in</a>
   {% endif %}
@@ -19,6 +19,6 @@
   {% block body %}{% endblock %}
   </div>
   <div class=footer>
-    MiniTwit &mdash; A Flask Application
+    MiniTwit &mdash; A Balls Application
   </div>
 </div>
