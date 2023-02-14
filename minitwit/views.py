@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponseNotFound
 from django.db import connection
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
 
 from . import models
@@ -92,14 +92,18 @@ def public_timeline(request):
 
 
 def user_timeline(request, username):
-    user = models.User.objects.filter(username=username)
-
-    if not user.exists():
+    try:
+        user = User.objects.get(username=username)
+    except:
         return HttpResponseNotFound("Username does not exist")
     
+    print(user)
     # Check following
-    follower_relation = models.Follower.objects.filter(who_id=request.user.id, whom_id=user.id).get()
-    followed = True if follower_relation else False
+    try:
+        models.Follower.objects.filter(who_id=request.user.id, whom_id=user.id).get()
+        followed = True
+    except:
+        followed = False
 
     # Fetch all messages
     messages = models.Message.objects.filter(author_id=user.id)
@@ -132,7 +136,7 @@ def login(request):
         if user is None:
             return HttpResponseNotFound("Wrong credentials")
         else:
-            login(request)
+            auth_login(request, user)
             return redirect('/public')
     return render(request, '../templates/login.html', {})
 
@@ -158,3 +162,10 @@ def register(request):
             user.save()
             return redirect('login')
     return render(request, '../templates/register.html', {'error': error})
+
+# /logout
+def logout(request):
+    """ Logout """
+    auth_logout(request)
+    return redirect('public')
+

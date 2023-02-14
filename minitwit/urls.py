@@ -25,6 +25,7 @@ urlpatterns = [
     path('timeline/', views.timeline, name='timeline'),
     path('public/', views.public_timeline, name='public'),
     path('login/', views.login, name='login'),
+    path('logout/', views.logout, name='logout'),
     path('register/', views.register, name='register'),
     path('admin/', admin.site.urls),
     path('<str:username>/', views.user_timeline, name='user_timeline'),
