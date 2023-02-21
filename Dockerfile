@@ -23,7 +23,8 @@ COPY . /minitwit
 RUN pip3 install -r /minitwit/requirements.txt
 
 RUN gcc flag_tool.c -lsqlite3
-RUN ./control.sh init
+RUN /minitwit/control.sh init
+# RUN python3 ./manager.py migrate
 
 # We assign the specific port for the localhost
 EXPOSE 8000
