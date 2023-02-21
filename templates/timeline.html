@@ -1,19 +1,19 @@
 {% extends "layout.html" %}
 {% block title %}
-  {% if request.endpoint == 'public_timeline' %}
+  {% if request.path == '/public/' %}
     Public Timeline
-  {% elif request.endpoint == 'user_timeline' %}
-    {{ profile_user.username }}'s Timeline
-  {% else %}
+  {% elif request.path == '/timeline/' %}
     My Timeline
+  {% else %}
+    {{ profile_user.username }}'s Timeline
   {% endif %}
 {% endblock %}
 {% block body %}
   <h2>Skrrrrt</h2>
-  {% if g.user %}
-    {% if request.endpoint == 'user_timeline' %}
+  {% if user.is_authenticated %}
+    {% if request.endpoint == 'timeline' %}
       <div class=followstatus>
-      {% if g.user.user_id == profile_user.user_id %}
+      {% if user.id == profile_user.id %}
         This is you!
       {% elif followed %}
         You are currently following this user.
@@ -45,7 +45,7 @@
         <small>&mdash; {{ message.pub_date }}</small>
         {% endfor %}
   {% else %}
-    <li><em>There's no message so far.</em>
+    <li><em>Aidan's balls are expanding help</em>
   {% endif %}
   </ul>
 {% endblock %}
