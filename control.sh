@@ -1,6 +1,4 @@
-
-#!/bin/bash 
-
+#!/bin/sh 
 if [ $1 = "init" ]; then
 
     if [ -f "/tmp/minitwit.db" ]; then 

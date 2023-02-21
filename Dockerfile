@@ -17,17 +17,17 @@ RUN apt install python3-pip -y
 WORKDIR /minitwit
 
 # We copy everything from this path
-COPY . /minitwit
+COPY ./requirements.txt /minitwit
 
 # Install requirements from requirements.txt
 RUN pip3 install -r /minitwit/requirements.txt
 
-RUN gcc flag_tool.c -lsqlite3
-RUN /minitwit/control.sh init
-# RUN python3 ./manager.py migrate
+COPY . /minitwit
 
-# We assign the specific port for the localhost
-EXPOSE 8000
+RUN gcc flag_tool.c -lsqlite3
+
+RUN ./control.sh init 
+RUN python3 manage.py migrate
 
 # ### What to do when running the container
-CMD python3 ./manage.py runserver
+CMD python3 ./manage.py runserver 0.0.0.0:8000 --noreload
