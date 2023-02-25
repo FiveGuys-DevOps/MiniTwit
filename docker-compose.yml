@@ -1,5 +1,18 @@
 services:
+  migrate:
+    build: .
+    command: python3 ./manage.py makemigrations
+    volumes:
+      - .:/minitwit
   server:
     build: .
     ports:
       - 8000:8000
+    command: python3 ./manage.py runserver 0.0.0.0:8000 --noreload
+    volumes:
+      - .:/minitwit
+  test: 
+    build: .
+    command: python3 ./manage.py test -v 2
+    volumes:
+      - .:/minitwit

@@ -21,13 +21,3 @@ COPY ./requirements.txt /minitwit
 
 # Install requirements from requirements.txt
 RUN pip3 install -r /minitwit/requirements.txt
-
-COPY . /minitwit
-
-RUN gcc flag_tool.c -lsqlite3
-
-RUN ./control.sh init 
-RUN python3 manage.py migrate
-
-# ### What to do when running the container
-CMD python3 ./manage.py runserver 0.0.0.0:8000 --noreload
