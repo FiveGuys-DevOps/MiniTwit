@@ -28,5 +28,6 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('register/', views.register, name='register'),
     path('admin/', admin.site.urls),
+    path('api/add_message/',views.add_message),
     path('<str:username>/', views.user_timeline, name='user_timeline'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

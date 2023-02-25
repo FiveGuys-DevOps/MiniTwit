@@ -6,7 +6,7 @@
   <h1>MiniTwit</h1>
   <div class=navigation>
   {% if user.is_authenticated %}
-    <a href="/timeline">my timeline</a> |
+    <a href="/{{user.username}}">my timeline</a> |
     <a href="/public">public timeline</a> |
     <a href="/logout">sign out [{{ user.username }}]</a>
   {% else %}
@@ -19,6 +19,6 @@
   {% block body %}{% endblock %}
   </div>
   <div class=footer>
-    MiniTwit &mdash; A Balls Application
+    MiniTwit &mdash; A Django Application
   </div>
 </div>
