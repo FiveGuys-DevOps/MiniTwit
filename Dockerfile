@@ -29,5 +29,9 @@ RUN gcc flag_tool.c -lsqlite3
 RUN ./control.sh init 
 RUN python3 manage.py migrate
 
+EXPOSE 8000
+
 # ### What to do when running the container
 CMD python3 ./manage.py runserver 0.0.0.0:8000 --noreload
+
+

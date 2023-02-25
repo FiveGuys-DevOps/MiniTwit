@@ -9,11 +9,10 @@
   {% endif %}
 {% endblock %}
 {% block body %}
-  <h2>Skrrrrt</h2>
   {% if user.is_authenticated %}
-    {% if request.endpoint == 'timeline' %}
+    {% if request.path == '/{profile_user}/' %}
       <div class=followstatus>
-      {% if user.id == profile_user.id %}
+      {% if user.id == .id %}
         This is you!
       {% elif followed %}
         You are currently following this user.
@@ -25,27 +24,31 @@
           }}">Follow user</a>.
       {% endif %}
       </div>
-    {% elif request.endpoint == 'timeline' %}
+    {% elif request.path == '/public/' %}
       <div class=twitbox>
-        <h3>What's on your mind {{ g.user.username }}?</h3>
-        <form action="" method=post>
+        <h3>What's on your mind {{ user.username }}?</h3>
+        <form action="/api/add_message/" method=post>
+        {% csrf_token %}
           <p><input type=text name=text size=60><!--
-          --><input type=submit value="Share">
+          --><input type=submit value="Twit">
         </form>
       </div>
     {% endif %}
+  {% else %}
+    <h2>MiniTwit Public Timeline</h2>
   {% endif %}
   <ul class=messages>
   {% if messages %}
     {% for message in messages %}
       <li><img src=""><p>
-        <strong><a href="{{ url_for('user_timeline', username=message.username)
-        }}">{{ message.username }}</a></strong>
+        <strong><a href="/{{message.username}}/">{{ message.username }}</a></strong>
         {{ message.text }}
         <small>&mdash; {{ message.pub_date }}</small>
         {% endfor %}
+  {% elif user.username == profile_user.username %}
+    <li><em>It's empty! Tweet some more!</em>
   {% else %}
-    <li><em>Aidan's balls are expanding help</em>
+    <li><em>Looks empty in here.. Come back later!</em>
   {% endif %}
   </ul>
 {% endblock %}
