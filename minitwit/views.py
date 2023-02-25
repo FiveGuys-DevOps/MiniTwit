@@ -134,9 +134,27 @@ def user_timeline(request, username):
 # /follow
 def follow_user(request, username):
     """Adds the current user as follower of the given user."""
-    # if not g.user:
-    #     abort(401)
+    
+    if not request.user:
+        return redirect('public/')
 
+    try:
+        user = User.objects.get(username=username)
+    except:
+        return HttpResponseNotFound("Username does not exist")
+
+    try:
+        follow = models.Follower.objects.filter(who_id=request.user, whom_id=user).get()
+        followed = True
+    except:
+        followed = False
+
+    if followed:
+        follow.delete()
+    else:
+        models.Follower.objects.create(who_id=request.user, whom_id=user)
+
+    return redirect('user_timeline', username=username)
     # if user exists, do stuff
     # if models.User.object.get(username=username).exists():
 
@@ -154,7 +172,7 @@ def follow_user(request, username):
     #                 [session['user_id'], whom_id]) # missing session?
     #     cursor.commit()
     # # flash(f'You are now following "{username}") # need flash equivalent
-    return #redirect('timeline')
+    # return #redirect('timeline')
 
 
 # /login

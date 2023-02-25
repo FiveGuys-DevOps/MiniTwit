@@ -10,18 +10,16 @@
 {% endblock %}
 {% block body %}
   {% if user.is_authenticated %}
-    {% if request.path == '/{profile_user}/' %}
+    {% if profile_user.username in request.path %}
       <div class=followstatus>
-      {% if user.id == .id %}
+      {% if user.id == profile_user.id %}
         This is you!
       {% elif followed %}
         You are currently following this user.
-        <a class=unfollow href="{{ url_for('unfollow_user', username=profile_user.username)
-          }}">Unfollow user</a>.
+        <a class=unfollow href="/fllws/{{profile_user.username}}">Unfollow user</a>.
       {% else %}
         You are not yet following this user.
-        <a class=follow href="{{ url_for('follow_user', username=profile_user.username)
-          }}">Follow user</a>.
+        <a class=follow href="/fllws/{{profile_user.username}}">Follow user</a>.
       {% endif %}
       </div>
     {% elif request.path == '/public/' %}
