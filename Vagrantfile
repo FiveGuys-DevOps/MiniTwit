@@ -14,12 +14,12 @@ Vagrant.configure("2") do |config|
       server.vm.provider :digital_ocean do |provider|
         provider.ssh_key_name = "do_ssh_key"
         provider.token = 'dop_v1_db12790484a6212198b677433de558f14a67e3247b1438fd1b2e950dbeb91334'
-        provider.image = 'ubuntu-22-10-x64'
+        provider.image = 'ubuntu-20-04-x64'
         provider.region = 'fra1'
         provider.size = 's-1vcpu-1gb'
       end
   
-      server.vm.hostname = "minitwit-ci-server"
+      server.vm.hostname = "minitwit-ci-server-2"
   
       server.vm.provision "shell", inline: 'echo "export DOCKER_USERNAME=' + "'" + ENV["DOCKER_USERNAME"] + "'" + '" >> ~/.bash_profile'
       server.vm.provision "shell", inline: 'echo "export DOCKER_PASSWORD=' + "'" + ENV["DOCKER_PASSWORD"] + "'" + '" >> ~/.bash_profile'
@@ -55,9 +55,9 @@ Vagrant.configure("2") do |config|
       source $HOME/.bash_profile
   
       echo -e "\nSelecting Minitwit Folder as default folder when you ssh into the server...\n"
-      echo "cd /minitwit" >> ~/.bash_profile
+      echo "cd /tools" >> ~/.bash_profile
   
-      chmod +x /minitwit/deploy.sh
+      chmod +x /tools/deploy.sh
       
       echo -e "\nVagrant setup done ..."
       echo -e "minitwit will later be accessible at http://$(hostname -I | awk '{print $1}'):5000"
