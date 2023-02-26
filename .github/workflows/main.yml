@@ -64,6 +64,8 @@ jobs:
           cat >> ~/.ssh/config <<END
           Host *
             StrictHostKeyChecking no
+            UserKnownHostsFile /dev/null
+            LogLevel ERROR
           END
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
