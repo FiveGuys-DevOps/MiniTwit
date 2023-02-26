@@ -55,9 +55,6 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache,mode=max
       
-      - name: Copy docker-compose.yml to server
-        run: scp docker-compose.yml minitwit-ci-server-2:/vagrant/docker-compose.yml
-
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
@@ -75,6 +72,12 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
+
+      - name: Copy docker-compose.yml to server
+        run: scp -i ~/.ssh/do_ssh_key.key -pr tools/ root@${{ secrets.SSH_HOST }}:/vagrant
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+
 
       - name: Copy deploy.sh to server
         run: >-
