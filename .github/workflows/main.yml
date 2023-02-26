@@ -60,17 +60,24 @@ jobs:
           mkdir -p ~/.ssh/
           echo "$SSH_KEY"
           echo "$SSH_KEY" > ~/.ssh/do_ssh_key.key
-          chmod 777 ~/.ssh/do_ssh_key.key
+          chmod 600 ~/.ssh/do_ssh_key.key
+          cat >> ~/.ssh/config << END
+          Host minitwit-ci-server-2
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/do_ssh_key.key
+            StrictHostKeyChecking no
+          END
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
-      - name: Copy deployment tools to server
-        run: scp -i ~/.ssh/do_ssh_key.key -pr tools/ root@${{ secrets.SSH_HOST }}:/vagrant
-        env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-
       - name: Deploy to server
-        # Configure the ~./bash_profile file on the Vagrantfile
-        run: ssh root@${{ secrets.SSH_HOST }} '/vagrant/tools/deploy.sh'
+        run: ssh root@${{ secrets.SSH_HOST }} 'echo test' #'/vagrant/tools/deploy.sh'
+
+      # - name: Copy deployment tools to server
+      #   run: scp -i ~/.ssh/do_ssh_key.key -pr tools/ root@${{ secrets.SSH_HOST }}:/vagrant
+      #   env:
+      #     SSH_HOST: ${{ secrets.SSH_HOST }}
+
