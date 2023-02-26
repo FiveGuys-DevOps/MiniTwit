@@ -61,6 +61,8 @@ jobs:
           echo "$SSH_KEY"
           echo "$SSH_KEY" > ~/.ssh/do_ssh_key.key
           chmod 600 ~/.ssh/do_ssh_key.key
+
+          ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
           cat >> ~/.ssh/config <<END
           Host *
             StrictHostKeyChecking no
@@ -73,8 +75,9 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
       - name: Deploy to server
-        run: ssh root@${{ secrets.SSH_HOST }} 'echo test' #'/vagrant/tools/deploy.sh'
-
+        run: ssh root@$SSH_HOST 'echo test' #'/vagrant/tools/deploy.sh'
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
       # - name: Copy deployment tools to server
       #   run: scp -i ~/.ssh/do_ssh_key.key -pr tools/ root@${{ secrets.SSH_HOST }}:/vagrant
       #   env:
