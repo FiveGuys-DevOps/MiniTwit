@@ -6,7 +6,6 @@ on:
     # Run workflow every time something is pushed to the main branch
     branches:
       - main
-      - master
   # allow manual triggers for now too
   workflow_dispatch:
     manual: true
@@ -55,39 +54,33 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/mysqlimage:latest
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache,mode=max
-
-      - name: Build and push flagtoolimage
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile-flagtool
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/flagtoolimage:latest
-          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/flagtoolimage:flagtoolbuildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/flagtoolimage:flagtoolbuildcache,mode=max
-
-      - name: Test minitwit
-        run: |
-          docker build -t $DOCKER_USERNAME/minitwittestimage -f Dockerfile-minitwit-tests .
-          yes 2>/dev/null | docker-compose up -d
-          docker run --rm --network=itu-minitwit-network $DOCKER_USERNAME/minitwittestimage
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-
+      
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/minitwit.key
-          chmod 600 ~/.ssh/minitwit.key
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
+          echo "$SSH_KEY"
+          echo "$SSH_KEY" > ~/.ssh/do_ssh_key.key
+          chmod 600 ~/.ssh/do_ssh_key.key
 
-      - name: Deploy to server
-        # Configure the ~./bash_profile and deploy.sh file on the Vagrantfile
-        run: >
-          ssh $SSH_USER@$SSH_HOST
-          -i ~/.ssh/minitwit.key -o StrictHostKeyChecking=no
-          '/minitwit/deploy.sh'
+          ssh-keyscan 46.101.250.219 >> ~/.ssh/known_hosts
+          cat >> ~/.ssh/config <<END
+          Host *
+            StrictHostKeyChecking no
+            UserKnownHostsFile /dev/null
+            LogLevel ERROR
+          END
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
+
+      - name: Copy deployment tools to server
+        run: scp -i ~/.ssh/do_ssh_key.key -pr tools/ root@46.101.250.219:/vagrant
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+      
+      - name: Deploy to server
+        run: ssh root@46.101.250.219 -i ~/.ssh/do_ssh_key.key '/vagrant/deploy.sh'
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+
