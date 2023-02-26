@@ -56,7 +56,7 @@ jobs:
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache,mode=max
       
       - name: Copy docker-compose.yml to server
-        run: scp docker-compose.yml minitwit:/vagrant/docker-compose.yml
+        run: scp docker-compose.yml minitwit-ci-server-2:/vagrant/docker-compose.yml
 
       - name: Configure SSH
         run: |
@@ -79,8 +79,8 @@ jobs:
       - name: Copy deploy.sh to server
         run: >-
           chmod +x tools/deploy.sh &&
-          scp tools/deploy.sh minitwit:/vagrant/tools/deploy.sh
+          scp tools/deploy.sh minitwit-ci-server-2:/vagrant/tools/deploy.sh
 
       - name: Deploy to server
         # Configure the ~./bash_profile file on the Vagrantfile
-        run: ssh minitwit '/vagrant/tools/deploy.sh'
+        run: ssh minitwit-ci-server-2 '/vagrant/tools/deploy.sh'
