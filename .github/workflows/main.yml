@@ -58,8 +58,16 @@ jobs:
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/do_ssh_key.key
-          chmod 600 ~/.ssh/do_ssh_key.key
+          echo "$SSH_KEY"
+          echo "$SSH_KEY" > ~/.ssh/minitwit.key
+          chmod 600 ~/.ssh/minitwit.key
+          cat >>~/.ssh/config <<END
+          Host minitwit-ci-server-2
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/minitwit.key
+            StrictHostKeyChecking no
+          END
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
 
