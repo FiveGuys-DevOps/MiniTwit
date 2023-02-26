@@ -78,8 +78,8 @@ jobs:
         run: ssh root@$46.101.250.219 'echo test' #'/vagrant/tools/deploy.sh'
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
-      # - name: Copy deployment tools to server
-      #   run: scp -i ~/.ssh/do_ssh_key.key -pr tools/ root@${{ secrets.SSH_HOST }}:/vagrant
-      #   env:
-      #     SSH_HOST: ${{ secrets.SSH_HOST }}
+      - name: Copy deployment tools to server
+        run: scp -i ~/.ssh/do_ssh_key.key -pr tools/ root@${{ secrets.SSH_HOST }}:/vagrant
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
 
