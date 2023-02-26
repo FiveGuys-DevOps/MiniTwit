@@ -323,6 +323,7 @@ def main(host):
                 )
 
         except requests.exceptions.ConnectionError as e:
+            print(e)
             ts_str = datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S")
             print(
                 ",".join(

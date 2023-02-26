@@ -16,9 +16,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from . import sim
 
 urlpatterns = [
     path('', views.timeline, name='init_timeline'),
@@ -30,5 +31,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/add_message/',views.add_message),
     path('fllws/<str:username>/', views.follow_user),
+    path('sim/', include(sim.urls)),
     path('<str:username>/', views.user_timeline, name='user_timeline'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
