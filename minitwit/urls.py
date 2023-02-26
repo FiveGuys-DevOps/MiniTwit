@@ -29,5 +29,6 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('admin/', admin.site.urls),
     path('api/add_message/',views.add_message),
+    path('fllws/<str:username>/', views.follow_user),
     path('<str:username>/', views.user_timeline, name='user_timeline'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
