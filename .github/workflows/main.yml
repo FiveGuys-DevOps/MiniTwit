@@ -54,6 +54,9 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/mysqlimage:latest
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache,mode=max
+      
+      - name: Copy docker-compose.yml to server
+        run: scp docker-compose.yml minitwit:/vagrant/docker-compose.yml
 
       - name: Configure SSH
         run: |
@@ -73,12 +76,11 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
+      - name: Copy deploy.sh to server
+        run: >-
+          chmod +x tools/deploy.sh &&
+          scp tools/deploy.sh minitwit:/vagrant/tools/deploy.sh
+
       - name: Deploy to server
-        # Configure the ~./bash_profile and deploy.sh file on the Vagrantfile
-        run: >
-          ssh $SSH_USER@$SSH_HOST
-          -i ~/.ssh/do_ssh_key.key -o StrictHostKeyChecking=no
-          '/tools/deploy.sh'
-        env:
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
+        # Configure the ~./bash_profile file on the Vagrantfile
+        run: ssh minitwit '/vagrant/tools/deploy.sh'
