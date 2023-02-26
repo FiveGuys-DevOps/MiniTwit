@@ -3,7 +3,7 @@
 {% block body %}
   <h2>Sign Up</h2>
   {% if error %}<div class=error><strong>Error:</strong> {{ error }}</div>{% endif %}
-  <form action="/register/" method=post>
+  <form action="/register" method=post>
     {% csrf_token %}
     <dl>
       <dt>Username:
