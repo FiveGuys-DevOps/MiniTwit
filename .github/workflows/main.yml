@@ -26,34 +26,34 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      # - name: Login to Docker Hub
+      #   uses: docker/login-action@v1
+      #   with:
+      #     username: ${{ secrets.DOCKER_USERNAME }}
+      #     password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v1
 
-      - name: Build and push minitwitimage
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile-minitwit
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/minitwitimage:latest
-          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache,mode=max
+      # - name: Build and push minitwitimage
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     file: ./Dockerfile-minitwit
+      #     push: true
+      #     tags: ${{ secrets.DOCKER_USERNAME }}/minitwitimage:latest
+      #     cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache
+      #     cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache,mode=max
 
-      - name: Build and push mysqlimage
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile-mysql
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/mysqlimage:latest
-          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache,mode=max
+      # - name: Build and push mysqlimage
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     file: ./Dockerfile-mysql
+      #     push: true
+      #     tags: ${{ secrets.DOCKER_USERNAME }}/mysqlimage:latest
+      #     cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache
+      #     cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache,mode=max
       
       - name: Configure SSH
         run: |
@@ -73,17 +73,11 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
-      - name: Copy docker-compose.yml to server
+      - name: Copy deployment tools to server
         run: scp -i ~/.ssh/do_ssh_key.key -pr tools/ root@${{ secrets.SSH_HOST }}:/vagrant
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
-
-      - name: Copy deploy.sh to server
-        run: >-
-          chmod +x tools/deploy.sh &&
-          scp tools/deploy.sh minitwit-ci-server-2:/vagrant/tools/deploy.sh
-
       - name: Deploy to server
         # Configure the ~./bash_profile file on the Vagrantfile
-        run: ssh minitwit-ci-server-2 '/vagrant/tools/deploy.sh'
+        run: ssh root@${{ secrets.SSH_HOST }} '/vagrant/tools/deploy.sh'
