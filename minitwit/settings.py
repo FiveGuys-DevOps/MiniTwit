@@ -27,10 +27,10 @@ SECRET_KEY = 'django-insecure-&sia*-f^rs-e3^k$#%2okpjq5u2=ywdz0^fozr+ga#!_fmr*@m
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '46.101.250.219',
-    'starfish-app-8zk28.ondigitalocean.app'
+    '*'
 ]
 
+APPEND_SLASH = False
 
 # Application definition
 

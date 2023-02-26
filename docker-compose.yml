@@ -7,3 +7,10 @@ services:
       - 5000:5000
     volumes:
       - .:/minitwit
+
+  simulator:
+    build:
+      context: .
+      dockerfile: Dockerfile-simulator
+    volumes:
+      - ./API_Spec:/api_spec

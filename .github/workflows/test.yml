@@ -1,0 +1,22 @@
+name: Testing
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Start server
+        run: docker compose up server --build -d
+      
+      - name: Simulation test
+        run: docker compose up simulator --build
+
+      - name: Cleanup
+        run: docker compose down
+
