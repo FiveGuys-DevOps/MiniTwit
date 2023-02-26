@@ -60,14 +60,7 @@ jobs:
           mkdir -p ~/.ssh/
           echo "$SSH_KEY"
           echo "$SSH_KEY" > ~/.ssh/do_ssh_key.key
-          chmod 600 ~/.ssh/do_ssh_key.key
-          cat >> ~/.ssh/config << END
-          Host minitwit-ci-server-2
-            HostName $SSH_HOST
-            User $SSH_USER
-            IdentityFile ~/.ssh/do_ssh_key.key
-            StrictHostKeyChecking no
-          END
+          chmod 777 ~/.ssh/do_ssh_key.key
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
