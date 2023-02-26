@@ -57,7 +57,7 @@ Vagrant.configure("2") do |config|
       echo -e "\nSelecting Minitwit Folder as default folder when you ssh into the server...\n"
       echo "cd /tools" >> ~/.bash_profile
   
-      chmod +x /tools/deploy.sh
+      chmod +x /vagrant/deploy.sh
       
       echo -e "\nVagrant setup done ..."
       echo -e "minitwit will later be accessible at http://$(hostname -I | awk '{print $1}'):5000"

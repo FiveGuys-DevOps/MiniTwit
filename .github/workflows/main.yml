@@ -80,7 +80,7 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
       
       - name: Deploy to server
-        run: ssh root@$46.101.250.219 -i ~/.ssh/do_ssh_key.key '/vagrant/deploy.sh'
+        run: ssh root@$46.101.250.219 -i ~/.ssh/do_ssh_key.key 'export DOCKER_USERNAME="${{ secrets.DOCKER_USERNAME }}" >> ~/.bash_profile && /vagrant/deploy.sh'
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
