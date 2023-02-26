@@ -4,7 +4,7 @@
 Vagrant.configure("2") do |config|
     config.vm.box = 'digital_ocean'
     config.vm.box_url = "https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box"
-    config.ssh.private_key_path = '~/.ssh/minitwit.key'
+    config.ssh.private_key_path = '~/.ssh/do_ssh_key'
   
     config.vm.synced_folder "remote_files", "/minitwit", type: "rsync"
     config.vm.synced_folder '.', '/vagrant', disabled: true
@@ -12,9 +12,9 @@ Vagrant.configure("2") do |config|
     config.vm.define "minitwit", primary: true do |server|
   
       server.vm.provider :digital_ocean do |provider|
-        provider.ssh_key_name = "minitwit"
-        provider.token = 'dop_v1_402feac63af9f622a253ee6243d6411526db5ae0426093200ad26d9f8e8eba34'
-        provider.image = 'ubuntu-20-04-x64'
+        provider.ssh_key_name = "do_ssh_key"
+        provider.token = 'dop_v1_db12790484a6212198b677433de558f14a67e3247b1438fd1b2e950dbeb91334'
+        provider.image = 'ubuntu-22-10-x64'
         provider.region = 'fra1'
         provider.size = 's-1vcpu-1gb'
       end
