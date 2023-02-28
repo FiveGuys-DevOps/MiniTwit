@@ -8,10 +8,12 @@ services:
       - 5000:5000
     volumes:
       - .:/minitwit
+    restart: always
     command:
       - /bin/sh
       - -c
       - |
+        sleep 5
         python3 ./manage.py migrate --run-syncdb
         python3 ./manage.py runserver 0.0.0.0:5000
     networks:
@@ -36,7 +38,7 @@ services:
       - /minitwitdb/data:/var/lib/postgresql/data 
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
+      interval: 10s
       timeout: 5s
       retries: 5
 

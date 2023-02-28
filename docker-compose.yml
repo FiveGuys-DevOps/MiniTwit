@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   server:
     build:
@@ -5,12 +7,14 @@ services:
       dockerfile: Dockerfile-minitwit
     ports:
       - 5000:5000
+    restart: always
     volumes:
       - .:/minitwit
     command:
       - /bin/sh
       - -c
       - |
+        sleep 5
         python3 ./manage.py migrate --run-syncdb
         python3 ./manage.py runserver 0.0.0.0:5000
     networks:
@@ -31,10 +35,10 @@ services:
     networks:
       - djangonetwork
     volumes:
-      - ./data:/var/lib/postgresql/data 
+      - ./data/database:/var/lib/postgresql/data 
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
+      interval: 10s
       timeout: 5s
       retries: 5
 
