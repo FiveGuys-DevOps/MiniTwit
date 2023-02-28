@@ -1,17 +1,68 @@
+version: "3.8"
+
 services:
   server:
     build:
-      context: .
-      dockerfile: Dockerfile-minitwit
+      context: ./src
+      dockerfile: Dockerfile
+    container_name: server
     ports:
       - 5000:5000
+    restart: always
     volumes:
-      - .:/minitwit
+      - ./src:/minitwit
+    command:
+      - /bin/sh
+      - -c
+      - |
+        sleep 5
+        python3 ./manage.py migrate --run-syncdb
+        python3 ./manage.py runserver 0.0.0.0:5000
+    networks:
+      - djangonetwork
+    links:
+      - db:db
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:15.2
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: db
+    networks:
+      - djangonetwork
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   simulator:
     build:
-      context: .
-      dockerfile: Dockerfile-simulator
+      context: ./API_Spec
+      dockerfile: Dockerfile
+    links:
+      - server:server
     volumes:
       - ./API_Spec:/api_spec
+    command:
+      - /bin/sh
+      - -c
+      - |
+        sleep 10
+        pytest ./minitwit_sim_api_test.py
     profiles: ["simulator"]
+    networks:
+      - djangonetwork
+    depends_on:
+      server:
+        condition: service_started 
+
+networks:
+  djangonetwork:
+      driver: bridge
