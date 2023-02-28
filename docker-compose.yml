@@ -7,14 +7,19 @@ services:
       - 5000:5000
     volumes:
       - .:/minitwit
-    command: python3 manage.py migrate --run-syncdb && python3 ./manage.py runserver 0.0.0.0:5000
+    command:
+      - /bin/sh
+      - -c
+      - |
+        python3 ./manage.py migrate --run-syncdb
+        python3 ./manage.py runserver 0.0.0.0:5000
     networks:
       - djangonetwork
     links:
       - db:db
     depends_on:
       db:
-        condition: service_started
+        condition: service_healthy
 
   db:
     image: postgres:15.2
@@ -25,6 +30,13 @@ services:
       POSTGRES_DB: db
     networks:
       - djangonetwork
+    volumes:
+      - ./data:/var/lib/postgresql/data 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   simulator:
     build:
