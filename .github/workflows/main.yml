@@ -64,12 +64,12 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
       - name: Copy deployment tools to server
-        run: rsync -Pav -e "ssh -i ~/.ssh/do_ssh_key.key" root@46.101.250.219:/vagrant tools/
+        run: rsync -Pav -e "ssh -i ~/.ssh/do_ssh_key.key" --no-perms --no-owner --no-group root@46.101.250.219:/vagrant tools/
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
       
       - name: Deploy to server
-        run: ssh root@46.101.250.219 -i ~/.ssh/do_ssh_key.key 'sudo chown -R $USER:$USER /vagrant/tools/deploy.sh && /vagrant/tools/deploy.sh'
+        run: ssh root@46.101.250.219 -i ~/.ssh/do_ssh_key.key '/vagrant/tools/deploy.sh'
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
