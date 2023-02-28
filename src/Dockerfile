@@ -21,13 +21,12 @@ COPY ./requirements.txt /minitwit
 
 # Install requirements from requirements.txt
 RUN pip3 install -r /minitwit/requirements.txt
-
-ENV DEBIAN_FRONTEND=noninteractive 
-RUN apt install python3-venv python3-dev postgresql postgresql-contrib curl -y
+ 
+ENV TZ=Europe/Berlin
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt update && apt install python3-venv python3-dev postgresql postgresql-contrib curl -y
 
 COPY . /minitwit
 
 # RUN apt install postgresql postgresql-contrib -y
 RUN pip3 install psycopg2-binary
-
-
