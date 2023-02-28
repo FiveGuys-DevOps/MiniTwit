@@ -56,6 +56,7 @@ services:
       - |
         sleep 10
         pytest ./minitwit_sim_api_test.py
+    profiles: ["simulator"]
     networks:
       - djangonetwork
     depends_on:
