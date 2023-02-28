@@ -6,8 +6,6 @@ services:
     container_name: minitwit
     ports:
       - 5000:5000
-    volumes:
-      - .:/minitwit
     restart: always
     command:
       - /bin/sh
@@ -35,8 +33,6 @@ services:
       POSTGRES_DB: db
     networks:
       - djangonetwork
-    volumes:
-      - /minitwitdb/data:/var/lib/postgresql/data 
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
