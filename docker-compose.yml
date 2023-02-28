@@ -15,6 +15,7 @@ services:
       - -c
       - |
         sleep 5
+        chown 777 -R ./data/database/
         python3 ./manage.py migrate --run-syncdb
         python3 ./manage.py runserver 0.0.0.0:5000
     networks:
@@ -28,6 +29,7 @@ services:
   db:
     image: postgres:15.2
     container_name: db
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
