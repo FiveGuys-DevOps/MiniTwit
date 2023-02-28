@@ -8,9 +8,9 @@ services:
     volumes:
       - .:/minitwit
 
-  #simulator:
-  #  build:
-  #    context: .
-  #    dockerfile: Dockerfile-simulator
-  #  volumes:
-  #    - ./API_Spec:/api_spec
+  simulator:
+    build:
+      context: .
+      dockerfile: Dockerfile-simulator
+    volumes:
+      - ./API_Spec:/api_spec
