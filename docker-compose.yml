@@ -45,7 +45,7 @@ services:
     volumes:
       - ./API_Spec:/api_spec
     profiles: ["simulator"]
-  
+
 networks:
   djangonetwork:
       driver: bridge
