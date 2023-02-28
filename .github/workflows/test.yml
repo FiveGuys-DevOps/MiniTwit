@@ -11,11 +11,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Start server
-        run: docker compose up --build -d --wait
+      - name: Start & test server
+        run: docker compose up --build
       
-      - name: Simulation test
-        run: docker compose up simulator --build
+      # - name: Simulation test
+      #   run: docker compose up simulator --build
 
       - name: Cleanup
         run: docker compose down

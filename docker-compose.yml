@@ -3,19 +3,19 @@ version: "3.8"
 services:
   server:
     build:
-      context: .
-      dockerfile: Dockerfile-minitwit
+      context: ./src
+      dockerfile: Dockerfile
+    container_name: server
     ports:
       - 5000:5000
     restart: always
     volumes:
-      - .:/minitwit
+      - ./src:/minitwit
     command:
       - /bin/sh
       - -c
       - |
         sleep 5
-        chown 777 -R ./data/database/
         python3 ./manage.py migrate --run-syncdb
         python3 ./manage.py runserver 0.0.0.0:5000
     networks:
@@ -36,8 +36,6 @@ services:
       POSTGRES_DB: db
     networks:
       - djangonetwork
-    volumes:
-      - ./data/database:/var/lib/postgresql/data 
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -46,11 +44,23 @@ services:
 
   simulator:
     build:
-      context: .
-      dockerfile: Dockerfile-simulator
+      context: ./API_Spec
+      dockerfile: Dockerfile
+    links:
+      - server:server
     volumes:
       - ./API_Spec:/api_spec
-    profiles: ["simulator"]
+    command:
+      - /bin/sh
+      - -c
+      - |
+        sleep 10
+        pytest ./minitwit_sim_api_test.py
+    networks:
+      - djangonetwork
+    depends_on:
+      server:
+        condition: service_started 
 
 networks:
   djangonetwork:
