@@ -45,16 +45,6 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache,mode=max
 
-      - name: Build and push mysqlimage
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile-mysql
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/mysqlimage:latest
-          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache,mode=max
-      
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/

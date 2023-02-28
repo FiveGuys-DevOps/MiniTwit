@@ -30,5 +30,4 @@ COPY . /minitwit
 # RUN apt install postgresql postgresql-contrib -y
 RUN pip3 install psycopg2-binary
 
-EXPOSE 5000
 

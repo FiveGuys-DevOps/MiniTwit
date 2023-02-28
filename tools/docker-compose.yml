@@ -1,26 +1,44 @@
-version: '3.3'
-
-networks:
-  main:
 
 services:
-
-  minitwitimage:
+  server:
     image: ${DOCKER_USERNAME}/minitwitimage
     container_name: minitwit
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/minitwit
+    command:
+      - /bin/sh
+      - -c
+      - |
+        python3 ./manage.py migrate --run-syncdb
+        python3 ./manage.py runserver 0.0.0.0:5000
     networks:
-      - main
+      - djangonetwork
+    links:
+      - db:db
     depends_on:
-      - itusqlimage
-    ports:
-        - '5000:5000'
+      db:
+        condition: service_healthy
 
-  itusqlimage:
-    image: ${DOCKER_USERNAME}/mysqlimage
-    container_name: minitwit_mysql
-    networks:
-      - main
-    ports:
-      - '3306:3306'
+
+  db:
+    image: postgres:15.2
+    container_name: db
     environment:
-        - MYSQL_ROOT_PASSWORD=root
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: db
+    networks:
+      - djangonetwork
+    volumes:
+      - /minitwitdb/data:/var/lib/postgresql/data 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+networks:
+  djangonetwork:
+      driver: bridge
