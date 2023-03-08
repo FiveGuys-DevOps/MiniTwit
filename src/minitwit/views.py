@@ -15,7 +15,7 @@ from contextlib import closing
 
 #### Helper functions
 
-PER_PAGE = 30
+PER_PAGE = 20
 
 
 def query_db(query, args=(), one=False):
@@ -69,13 +69,19 @@ def timeline(request):
     # Add the messages of followed users
     for follower in followers:
         print(follower)
-        follower_messages = unflagged.filter(user__id=follower['whom_id_id'])[:20].values()
+        follower_messages = unflagged.filter(user__id=follower['whom_id_id'])[:PER_PAGE].values()
         messages.extend(follower_messages)
     
     # Add the messages of the user
     print(messages)
-    user_messages = unflagged.filter(user__id=request.user.id)[:20].values()
+    user_messages = unflagged.filter(user__id=request.user.id)[:PER_PAGE].values()
     messages.extend(user_messages)
+
+    # Convert to list of dicts
+    messages = [ dict(message) for message in list(messages) ]
+
+    for message in messages:
+        message["username"] = User.objects.get(id=message['user_id'])
 
     context = {
         'messages': messages,
@@ -86,7 +92,7 @@ def timeline(request):
 def public_timeline(request):
     """Displays the latest messages of all users."""
     # Fetch all messages
-    messages = models.Message.objects.filter(flagged=0).order_by('-pub_date')[:20].values()
+    messages = models.Message.objects.filter(flagged=0).order_by('-pub_date')[:PER_PAGE].values()
     
     # Convert to list of dicts
     messages = [ dict(message) for message in list(messages) ]
@@ -118,7 +124,7 @@ def user_timeline(request, username):
         followed = False
 
     # Fetch all messages
-    messages = models.Message.objects.filter(user__id=user.id).order_by('-pub_date')[:20].values()
+    messages = models.Message.objects.filter(user__id=user.id).order_by('-pub_date')[:PER_PAGE].values()
 
     # Convert to list of dicts
     messages = [ dict(message) for message in messages ]

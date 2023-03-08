@@ -38,23 +38,12 @@ jobs:
       - name: Build and push minitwitimage
         uses: docker/build-push-action@v2
         with:
-          context: .
-          file: ./Dockerfile-minitwit
+          context: "{{defaultContext}}:src"
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/minitwitimage:latest
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache,mode=max
 
-      - name: Build and push mysqlimage
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile-mysql
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/mysqlimage:latest
-          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mysqlimage:mysqlbuildcache,mode=max
-      
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
@@ -75,12 +64,12 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
       - name: Copy deployment tools to server
-        run: scp -i ~/.ssh/do_ssh_key.key -pr tools/ root@46.101.250.219:/vagrant
+        run: rsync -Pav -e "ssh -i ~/.ssh/do_ssh_key.key" --no-perms --no-owner --no-group root@46.101.250.219:/vagrant tools/
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
       
       - name: Deploy to server
-        run: ssh root@46.101.250.219 -i ~/.ssh/do_ssh_key.key '/vagrant/deploy.sh'
+        run: ssh root@46.101.250.219 -i ~/.ssh/do_ssh_key.key 'chmod 777 /vagrant/tools/* && /vagrant/tools/deploy.sh'
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
