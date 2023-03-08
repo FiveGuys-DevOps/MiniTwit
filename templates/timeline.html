@@ -1,8 +1,8 @@
 {% extends "layout.html" %}
 {% block title %}
-  {% if request.path == '/public/' %}
+  {% if request.path == '/' or '/public' in request.path%}
     Public Timeline
-  {% elif request.path == '/timeline/' %}
+  {% elif '/timeline' in request.path %}
     My Timeline
   {% else %}
     {{ profile_user.username }}'s Timeline
@@ -22,10 +22,10 @@
         <a class=follow href="/fllws/{{profile_user.username}}">Follow user</a>.
       {% endif %}
       </div>
-    {% elif request.path == '/public/' %}
+    {% elif '/public' in request.path %}
       <div class=twitbox>
         <h3>What's on your mind {{ user.username }}?</h3>
-        <form action="/api/add_message/" method=post>
+        <form action="/api/add_message" method=post>
         {% csrf_token %}
           <p><input type=text name=text size=60><!--
           --><input type=submit value="Twit">

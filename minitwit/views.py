@@ -53,17 +53,23 @@ def timeline(request):
     messages as well as all the messages of followed users.
     """
     print(("We got a visitor from: " + str(request)))
-    if not request.user:
-        return redirect('public/')
+    
+    if not request.user.is_authenticated:
+        print("redirecting!!!")
+        return redirect('public')
     
     messages = []
     unflagged = models.Message.objects.filter(flagged=0).order_by('-pub_date')
     
     followers = models.Follower.objects.filter(who_id=request.user.id).values()
 
+    # Convert to list of dicts
+    # followers = [ dict(follower) for follower in list(followers) ]
+
     # Add the messages of followed users
     for follower in followers:
-        follower_messages = unflagged.filter(user__id=follower.whom_id)[:20].values()
+        print(follower)
+        follower_messages = unflagged.filter(user__id=follower['whom_id_id'])[:20].values()
         messages.extend(follower_messages)
     
     # Add the messages of the user
