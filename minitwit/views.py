@@ -57,18 +57,18 @@ def timeline(request):
         return redirect('public/')
     
     messages = []
-    unflagged = models.Message.objects.filter(flagged=0)
+    unflagged = models.Message.objects.filter(flagged=0).order_by('-pub_date')
     
     followers = models.Follower.objects.filter(who_id=request.user.id).values()
 
     # Add the messages of followed users
     for follower in followers:
-        follower_messages = unflagged.filter(user__id=follower.whom_id).values()
+        follower_messages = unflagged.filter(user__id=follower.whom_id)[:20].values()
         messages.extend(follower_messages)
     
     # Add the messages of the user
     print(messages)
-    user_messages = unflagged.filter(user__id=request.user.id).values()
+    user_messages = unflagged.filter(user__id=request.user.id)[:20].values()
     messages.extend(user_messages)
 
     context = {
@@ -80,10 +80,9 @@ def timeline(request):
 def public_timeline(request):
     """Displays the latest messages of all users."""
     # Fetch all messages
-    messages = models.Message.objects.filter(flagged=0).order_by('-pub_date').values()
+    messages = models.Message.objects.filter(flagged=0).order_by('-pub_date')[:20].values()
+    
     # Convert to list of dicts
-    print(messages,'hi')
-
     messages = [ dict(message) for message in list(messages) ]
     
     # Add user info to each message
@@ -113,7 +112,7 @@ def user_timeline(request, username):
         followed = False
 
     # Fetch all messages
-    messages = models.Message.objects.filter(user__id=user.id).order_by('-pub_date').values()
+    messages = models.Message.objects.filter(user__id=user.id).order_by('-pub_date')[:20].values()
 
     # Convert to list of dicts
     messages = [ dict(message) for message in messages ]
