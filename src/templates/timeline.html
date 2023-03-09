@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}
-  {% if request.path == '/public' %}
+  {% if request.path == '/' or request.path == '/public' %}
     Public Timeline
   {% elif request.path == '/timeline' %}
     My Timeline
