@@ -64,7 +64,7 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
       - name: Remove old deployment tools
-        run: ssh root@46.101.250.219 -i ~/.ssh/do_ssh_key.key 'rm -r /vagrant/tools/*'
+        run: ssh root@46.101.250.219 -i ~/.ssh/do_ssh_key.key 'rm -rf /vagrant/tools/*'
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
