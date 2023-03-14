@@ -63,8 +63,13 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
+      - name: Remove old deployment tools
+        run: ssh root@46.101.250.219 -i ~/.ssh/do_ssh_key.key 'rm -rf /vagrant/tools/*'
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+
       - name: Copy deployment tools to server
-        run: rsync -Pav -e "ssh -i ~/.ssh/do_ssh_key.key" --no-perms --no-owner --no-group root@46.101.250.219:/vagrant tools/
+        run: rsync -Pav -e "ssh -i ~/.ssh/do_ssh_key.key" --no-perms --no-owner --no-group tools/* root@46.101.250.219:/vagrant/tools/
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
       
@@ -75,6 +80,7 @@ jobs:
 
   release:
     needs: "build"
+    permissions: write-all
     name: "Automatic release"
     runs-on: "ubuntu-latest"
     steps:
