@@ -75,6 +75,7 @@ jobs:
 
   release:
     needs: "build"
+    permissions: write-all
     name: "Automatic release"
     runs-on: "ubuntu-latest"
     steps:
