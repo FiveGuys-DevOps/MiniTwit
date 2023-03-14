@@ -73,3 +73,14 @@ jobs:
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
+  release:
+    needs: "build"
+    name: "Automatic release"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GH_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: "Automatic latest release"
