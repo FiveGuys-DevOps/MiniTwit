@@ -69,7 +69,7 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
       - name: Copy deployment tools to server
-        run: rsync -Pav -e "ssh -i ~/.ssh/do_ssh_key.key" --no-perms --no-owner --no-group tools/ root@46.101.250.219:/vagrant
+        run: rsync -Pav -e "ssh -i ~/.ssh/do_ssh_key.key" --no-perms --no-owner --no-group tools/* root@46.101.250.219:/vagrant/tools/
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
       
