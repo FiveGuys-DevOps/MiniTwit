@@ -94,7 +94,7 @@ def user_msgs(request, username):
             flagged=0
         )
     
-    return HttpResponse(None, status=200)
+    return HttpResponse(None, status=204)
     
 
 # Follow/unfollow user
