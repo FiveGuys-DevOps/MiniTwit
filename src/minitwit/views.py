@@ -8,15 +8,12 @@ from . import models
 
 import time
 import sqlite3
-from hashlib import md5
 from datetime import datetime
 from contextlib import closing
-
 
 #### Helper functions
 
 PER_PAGE = 20
-
 
 def query_db(query, args=(), one=False):
     """Queries the database and returns a list of dictionaries."""
@@ -36,14 +33,6 @@ def get_user_id(username):
 def format_datetime(timestamp):
     """Format a timestamp for display."""
     return datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d @ %H:%M')
-
-
-def gravatar_url(email, size=80):
-    """Return the gravatar image for the given email address."""
-    return 'http://www.gravatar.com/avatar/%s?d=identicon&s=%d' % \
-        (md5(email.strip().lower().encode('utf-8')).hexdigest(), size)
-
-
 
 ### Views
 # /, /public
