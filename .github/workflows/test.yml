@@ -12,10 +12,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Start server
-        run: DOCKER_DEFAULT_PLATFORM=linux/arm64 docker-compose up --build 
+        run: docker-compose up --build -d --wait
       
       - name: Simulation test
-        run: DOCKER_DEFAULT_PLATFORM=linux/arm64 docker-compose up simulator --build
+        run: docker-compose up simulator --build
 
       - name: Cleanup
         run: docker compose down
