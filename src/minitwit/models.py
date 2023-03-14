@@ -12,4 +12,3 @@ class Message(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, default=1, on_delete = models.CASCADE)
     flagged = models.IntegerField()
-
