@@ -23,6 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-&sia*-f^rs-e3^k$#%2okpjq5u2=ywdz0^fozr+ga#!_fmr*@m'
 
+# Suppressing "Cross-Origin-Opener-Policy header has been ignored" warning
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
