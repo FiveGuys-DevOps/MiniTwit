@@ -23,6 +23,7 @@ from . import sim
 
 urlpatterns = [
     path('', views.timeline, name='init_timeline'),
+    path('', include('django_prometheus.urls')),
     path('timeline', views.timeline, name='timeline'),
     path('public', views.public_timeline, name='public'),
     path('login', views.login, name='login'),
