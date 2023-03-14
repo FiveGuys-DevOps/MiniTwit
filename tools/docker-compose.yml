@@ -39,6 +39,22 @@ services:
       timeout: 5s
       retries: 5
 
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./tools/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    networks:
+      - djangonetwork
+
+  grafana:
+    image: grafana/grafana:4.5.2
+    ports:
+      - 3000:3000  
+    networks:
+      - djangonetwork
+
 networks:
   djangonetwork:
       driver: bridge

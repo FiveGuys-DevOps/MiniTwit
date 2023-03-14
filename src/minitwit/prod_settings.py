@@ -32,6 +32,8 @@ ALLOWED_HOSTS = [
 
 APPEND_SLASH = False
 
+PROMETHEUS_EXPORT_MIGRATIONS = False
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,9 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'minitwit',
+    # 'django_prometheus',
 ]
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'minitwit.urls'
@@ -80,7 +85,7 @@ WSGI_APPLICATION = 'minitwit.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django_prometheus.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'root',
@@ -107,6 +112,10 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Prometheus
+PROMETHEUS_METRICS_EXPORT_PORT = 9090
+PROMETHEUS_METRICS_EXPORT_ADDRESS = '' # All addresses
 
 
 # Internationalization
