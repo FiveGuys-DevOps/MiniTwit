@@ -69,3 +69,7 @@ networks:
 volumes:
   database:
     external: true
+  logs-storage:
+    external: true
+    
+    
