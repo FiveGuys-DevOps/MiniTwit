@@ -1,4 +1,5 @@
 from . import views
+import logging
 
 """minitwit URL Configuration
 
@@ -20,7 +21,9 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import sim
-
+logger = logging.getLogger('test')
+logger.info('pogger')
+print('hola')
 urlpatterns = [
     path('', views.timeline, name='init_timeline'),
     path('', include('django_prometheus.urls')),
