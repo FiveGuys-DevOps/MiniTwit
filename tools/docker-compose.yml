@@ -41,6 +41,7 @@ services:
 
   prometheus:
     image: prom/prometheus
+    restart: always
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
@@ -50,6 +51,7 @@ services:
 
   grafana:
     image: grafana/grafana:4.5.2
+    restart: always
     ports:
       - 3000:3000  
     networks:
