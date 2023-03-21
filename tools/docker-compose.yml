@@ -27,6 +27,8 @@ services:
     image: postgres:15.2
     container_name: db
     restart: always
+    volumes:
+      - database:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
@@ -41,6 +43,7 @@ services:
 
   prometheus:
     image: prom/prometheus
+    restart: always
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
@@ -50,6 +53,7 @@ services:
 
   grafana:
     image: grafana/grafana:4.5.2
+    restart: always
     ports:
       - 3000:3000  
     networks:
@@ -58,3 +62,7 @@ services:
 networks:
   djangonetwork:
       driver: bridge
+
+volumes:
+  database:
+    external: true
