@@ -62,3 +62,7 @@ services:
 networks:
   djangonetwork:
       driver: bridge
+
+volumes:
+  database:
+    external: true
