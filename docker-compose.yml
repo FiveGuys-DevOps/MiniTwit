@@ -6,6 +6,7 @@ services:
       context: ./src
       dockerfile: Dockerfile
     container_name: server
+    #platform: arm64
     ports:
       - 5000:5000
     restart: always
@@ -30,6 +31,7 @@ services:
     image: postgres:15.2
     container_name: db
     restart: always
+    #platform: arm64
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root

@@ -12,6 +12,9 @@ RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt update 
 RUN apt install python3.10 -y
 RUN apt install python3-pip -y
+RUN apt-get update \
+    && apt-get -y install libpq-dev gcc \
+    && pip install psycopg2
 
 # Specify our path in the container
 WORKDIR /minitwit
@@ -29,4 +32,4 @@ RUN apt update && apt install python3-venv python3-dev postgresql postgresql-con
 COPY . /minitwit
 
 # RUN apt install postgresql postgresql-contrib -y
-RUN pip3 install psycopg2-binary
+RUN pip3 install psycopg2
