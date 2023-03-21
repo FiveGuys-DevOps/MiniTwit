@@ -72,6 +72,8 @@ networks:
 volumes:
   database:
     external: true
+  logs-storage:
+    external: true
   grafana-storage:
     external: true
   prometheus-storage:
