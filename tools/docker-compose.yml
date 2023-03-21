@@ -54,6 +54,8 @@ services:
   grafana:
     image: grafana/grafana:4.5.2
     restart: always
+    volumes:
+      - grafana-storage:/var/lib/grafana
     ports:
       - 3000:3000  
     networks:
@@ -65,4 +67,6 @@ networks:
 
 volumes:
   database:
+    external: true
+  grafana-storage:
     external: true
