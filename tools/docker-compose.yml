@@ -27,6 +27,8 @@ services:
     image: postgres:15.2
     container_name: db
     restart: always
+    volumes:
+      - database:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
