@@ -46,6 +46,7 @@ services:
     image: prom/prometheus
     restart: always
     volumes:
+      - prometheus-storage:/prometheus
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - 9090:9090
@@ -70,4 +71,6 @@ volumes:
   database:
     external: true
   grafana-storage:
+    external: true
+  prometheus-storage:
     external: true
