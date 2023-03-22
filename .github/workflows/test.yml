@@ -17,7 +17,7 @@ jobs:
       - name: Simulation test
         run: docker compose up simulator --build
 
-      - name: Run Snyk to check Docker image for vulnerabilities
+      - name: Snyk on minitwit-server
         uses: snyk/actions/docker@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -27,17 +27,3 @@ jobs:
 
       - name: Cleanup
         run: docker compose down
-
-  # security:
-  #   runs-on: ubuntu-latest
-    
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Build a Docker image
-  #       run: docker build -t ./src .
-  #     - name: Run Snyk to check Docker image for vulnerabilities
-  #       uses: snyk/actions/docker@master
-  #       env:
-  #         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-  #       with:
-  #         image: src/Dockerfile
