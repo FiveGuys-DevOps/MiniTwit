@@ -7,4 +7,4 @@ scrape_configs:
     metrics_path: /metrics
     static_configs:
       - targets:
-        - server:5000
+          - server:5000

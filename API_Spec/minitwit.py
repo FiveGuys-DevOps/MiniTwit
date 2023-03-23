@@ -9,24 +9,25 @@
     :license: BSD, see LICENSE for more details.
 """
 from __future__ import with_statement
-import time
+
 import sqlite3
-from hashlib import md5
-from datetime import datetime
+import time
 from contextlib import closing
+from datetime import datetime
+from hashlib import md5
+
 from flask import (
     Flask,
+    abort,
+    flash,
+    g,
+    redirect,
+    render_template,
     request,
     session,
     url_for,
-    redirect,
-    render_template,
-    abort,
-    g,
-    flash,
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-
 
 # configuration
 DATABASE = "/tmp/minitwit.db"

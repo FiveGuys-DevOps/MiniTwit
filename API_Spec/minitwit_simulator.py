@@ -4,20 +4,20 @@ Call me for example like:
 $ python minitwit_simulator.py "http://localhost:5001"
 """
 
-import traceback
-import os
-import csv
-import sys
-import json
-import http
-import socket
 import base64
-import requests
-from time import sleep
-from datetime import datetime
-from contextlib import closing
+import csv
+import http
+import json
+import os
+import socket
 import sqlite3
+import sys
+import traceback
+from contextlib import closing
+from datetime import datetime
+from time import sleep
 
+import requests
 
 CSV_FILENAME = "./minitwit_scenario.csv"
 USERNAME = "simulator"
@@ -32,7 +32,6 @@ HEADERS = {
 
 
 def get_actions():
-
     # read scenario .csv and parse to a list of lists
     with open(CSV_FILENAME, "r", encoding="utf-8") as f:
         reader = csv.reader(f, delimiter="\t", quotechar=None)
@@ -107,10 +106,9 @@ def main(host):
         try:
             # SWITCH ON TYPE
             command = action["post_type"]
-            reponse = None
+            response = None
 
             if command == "register":
-
                 # build url for request
                 url = f"{host}/register"
 
@@ -133,13 +131,8 @@ def main(host):
 
                 # error handling (204 success, 400 user exists)
                 # 400 user exists already but not an error to log
-                if not (
-                    (response.status_code == 204)
-                    or (response.status_code == 400)
-                ):
-                    ts_str = datetime.strftime(
-                        datetime.utcnow(), "%Y-%m-%d %H:%M:%S"
-                    )
+                if not ((response.status_code == 204) or (response.status_code == 400)):
+                    ts_str = datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S")
                     print(
                         ",".join(
                             [
@@ -155,7 +148,6 @@ def main(host):
                 response.close()
 
             elif command == "msgs":
-
                 # LIST method. Not used atm.
                 # build url for request
                 url = f"{host}/msgs"
@@ -171,9 +163,7 @@ def main(host):
 
                 # 403 bad request
                 if response.status_code != 200:
-                    ts_str = datetime.strftime(
-                        datetime.utcnow(), "%Y-%m-%d %H:%M:%S"
-                    )
+                    ts_str = datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S")
                     print(
                         ",".join(
                             [
@@ -189,7 +179,6 @@ def main(host):
                 response.close()
 
             elif command == "follow":
-
                 # build url for request
                 username = action["username"]
                 url = f"{host}/fllws/{username}"
@@ -211,9 +200,7 @@ def main(host):
 
                 # 403 unauthorized or 404 Not Found
                 if response.status_code != 204:
-                    ts_str = datetime.strftime(
-                        datetime.utcnow(), "%Y-%m-%d %H:%M:%S"
-                    )
+                    ts_str = datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S")
                     print(
                         ",".join(
                             [
@@ -229,7 +216,6 @@ def main(host):
                 response.close()
 
             elif command == "unfollow":
-
                 # build url for request
                 username = action["username"]
                 url = f"{host}/fllws/{username}"
@@ -251,9 +237,7 @@ def main(host):
 
                 # 403 unauthorized or 404 Not Found
                 if response.status_code != 204:
-                    ts_str = datetime.strftime(
-                        datetime.utcnow(), "%Y-%m-%d %H:%M:%S"
-                    )
+                    ts_str = datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S")
                     print(
                         ",".join(
                             [
@@ -269,7 +253,6 @@ def main(host):
                 response.close()
 
             elif command == "tweet":
-
                 # build url for request
                 username = action["username"]
                 url = f"{host}/msgs/{username}"
@@ -289,9 +272,7 @@ def main(host):
                 # error handling (204 success, 403 failure)
                 # 403 unauthorized
                 if response.status_code != 204:
-                    ts_str = datetime.strftime(
-                        datetime.utcnow(), "%Y-%m-%d %H:%M:%S"
-                    )
+                    ts_str = datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S")
                     print(
                         ",".join(
                             [
@@ -308,9 +289,7 @@ def main(host):
 
             else:
                 # throw exception. Should not be hit
-                ts_str = datetime.strftime(
-                    datetime.utcnow(), "%Y-%m-%d %H:%M:%S"
-                )
+                ts_str = datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S")
                 print(
                     ",".join(
                         [
@@ -325,25 +304,15 @@ def main(host):
         except requests.exceptions.ConnectionError as e:
             print(e)
             ts_str = datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S")
-            print(
-                ",".join(
-                    [ts_str, host, str(action["latest"]), "ConnectionError"]
-                )
-            )
+            print(",".join([ts_str, host, str(action["latest"]), "ConnectionError"]))
         except requests.exceptions.ReadTimeout as e:
             ts_str = datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S")
-            print(
-                ",".join([ts_str, host, str(action["latest"]), "ReadTimeout"])
-            )
+            print(",".join([ts_str, host, str(action["latest"]), "ReadTimeout"]))
         except Exception as e:
             print("========================================")
             print(traceback.format_exc())
             ts_str = datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S")
-            print(
-                ",".join(
-                    [ts_str, host, str(action["latest"]), type(e).__name__]
-                )
-            )
+            print(",".join([ts_str, host, str(action["latest"]), type(e).__name__]))
 
         sleep(delay / (1000 * 100000))
 

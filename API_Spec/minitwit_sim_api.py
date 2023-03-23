@@ -11,15 +11,15 @@
     :license: BSD, see LICENSE for more details.
 """
 import os
-import time
 import sqlite3
-from hashlib import md5
-from datetime import datetime
+import time
 from contextlib import closing
-from flask import Flask, request, g, jsonify, abort
-from werkzeug.security import check_password_hash, generate_password_hash
-from minitwit import connect_db, query_db, DATABASE, SECRET_KEY, init_db
+from datetime import datetime
+from hashlib import md5
 
+from flask import Flask, abort, g, jsonify, request
+from minitwit import DATABASE, SECRET_KEY, connect_db, init_db, query_db
+from werkzeug.security import check_password_hash, generate_password_hash
 
 os.system(f"rm {DATABASE}")
 init_db()
@@ -154,7 +154,6 @@ def messages_per_user(username):
 
     no_msgs = request.args.get("no", type=int, default=100)
     if request.method == "GET":
-
         user_id = get_user_id(username)
         if not user_id:
             abort(404)
