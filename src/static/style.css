@@ -20,7 +20,6 @@ input[type="password"] {
     font-family: 'Trebuchet MS', sans-serif;
     font-size: 14px;
     border-radius: 2px;
-    border-radius: 2px;
     color: #105751;
 }
 
@@ -31,7 +30,6 @@ input[type="submit"] {
     font-family: 'Trebuchet MS', sans-serif;
     font-size: 14px;
     font-weight: bold;
-    border-radius: 2px;
     border-radius: 2px;
     color: white;
 }
@@ -89,7 +87,6 @@ div.page div.followstatus {
     border: 1px solid #ccc;
     background: #E3EBEA;
     border-radius: 2px;
-    border-radius: 2px;
     padding: 3px;
     font-size: 13px;
 }
@@ -105,7 +102,6 @@ div.page ul.messages li {
     padding: 5px;
     background: #F0FAF9;
     border: 1px solid #DBF3F1;
-    border-radius: 5px;
     border-radius: 5px;
     min-height: 48px;
 }
@@ -129,7 +125,6 @@ div.page div.twitbox {
     padding: 5px;
     background: #F0FAF9;
     border: 1px solid #94E2DA;
-    border-radius: 5px;
     border-radius: 5px;
 }
 
@@ -162,7 +157,6 @@ ul.flashes li {
     background: #B9F3ED;
     border: 1px solid #81CEC6;
     border-radius: 2px;
-    border-radius: 2px;
     padding: 4px;
     font-size: 13px;
 }
@@ -171,7 +165,6 @@ div.error {
     margin: 10px 0;
     background: #FAE4E4;
     border: 1px solid #DD6F6F;
-    border-radius: 2px;
     border-radius: 2px;
     padding: 4px;
     font-size: 13px;
