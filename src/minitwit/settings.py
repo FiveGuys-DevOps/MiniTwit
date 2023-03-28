@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
+import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -151,9 +152,11 @@ LOGGING = {
     },
     'handlers': {
         'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': './info.log',
+            'level': 'WARNING',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'info.log',
+            'backupCount':5,
+            'maxBytes':5242880,
             'formatter':'simple',
         },
     },
