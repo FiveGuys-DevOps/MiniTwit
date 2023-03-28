@@ -104,7 +104,10 @@ def follow_user(request, username):
     update_latest(request)
 
     if request.method == "POST":
-        user = User.objects.get(username=username)
+        try:
+            user = User.objects.get(username=username)
+        except:
+            return JsonResponse({'status': 404, 'error_msg': "User not found"}, status=404)
         try:
             user_follow = json.loads(request.body)['follow']
             follower = User.objects.get(username=user_follow)
@@ -125,7 +128,10 @@ def follow_user(request, username):
                 return JsonResponse({'status': 404, 'error_msg': "Followed user not found"}, status=404)
     elif request.method == "GET":
         amount = int(request.GET.get('no', 100))
-        user = User.objects.get(username=username)
+        try:
+            user = User.objects.get(username=username)
+        except:
+            return JsonResponse({'status': 404, 'error_msg': "User not found"}, status=404)
         followers = models.Follower.objects.filter(who_id=user).values()
         followers = [ dict(follow) for follow in list(followers) ]
         followers = followers[:amount]
