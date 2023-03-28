@@ -121,7 +121,8 @@ def follow_user(request, username):
                     whom_id=follower
                 ).get().delete()
             except:
-                print("[-] Followed user not found")
+                logging.error("Followed user not found")
+                return JsonResponse({'status': 404, 'error_msg': "Followed user not found"}, status=404)
     elif request.method == "GET":
         amount = int(request.GET.get('no', 100))
         user = User.objects.get(username=username)
