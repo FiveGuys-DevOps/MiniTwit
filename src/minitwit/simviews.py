@@ -2,6 +2,7 @@ from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 import json
+import logging
 
 from . import models
 
@@ -33,7 +34,7 @@ def register(request):
                 User.objects.get(username=username)
                 error = "The username is already taken"
             except:
-                user = User.objects.create_user(
+                User.objects.create_user(
                     username,
                     email,
                     pwd
@@ -114,11 +115,13 @@ def follow_user(request, username):
         except:
             user_follow = json.loads(request.body)['unfollow']
             follower = User.objects.get(username=user_follow)
-            models.Follower.objects.filter(
-                who_id=user,
-                whom_id=follower
-            ).get().delete()
-
+            try:
+                models.Follower.objects.filter(
+                    who_id=user,
+                    whom_id=follower
+                ).get().delete()
+            except:
+                print("[-] Followed user not found")
     elif request.method == "GET":
         amount = int(request.GET.get('no', 100))
         user = User.objects.get(username=username)
