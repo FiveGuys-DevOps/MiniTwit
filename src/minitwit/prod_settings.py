@@ -165,7 +165,7 @@ LOGGING = {
     'handlers': {
         'file': {
             'level': 'WARNING',
-            'class': 'logging.handler.RotatingFileHandler',
+            'class': 'logging.handlers.RotatingFileHandler',
             'filename': '/logs/info.log',
             'backupCount':5,
             'maxBytes':5242880,
