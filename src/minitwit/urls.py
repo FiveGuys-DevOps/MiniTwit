@@ -24,9 +24,6 @@ from django.urls import include, path
 
 from . import sim
 
-logger = logging.getLogger("test")
-logger.info("pogger")
-print("hola")
 urlpatterns = [
     path("", views.timeline, name="init_timeline"),
     path("", include("django_prometheus.urls")),

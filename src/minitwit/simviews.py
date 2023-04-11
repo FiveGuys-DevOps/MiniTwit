@@ -3,6 +3,8 @@ import json
 from django.contrib.auth.models import User
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+import json
+import logging
 
 from . import models
 
@@ -36,7 +38,11 @@ def register(request):
                 User.objects.get(username=username)
                 error = "The username is already taken"
             except:
-                user = User.objects.create_user(username, email, pwd)
+                User.objects.create_user(
+                    username,
+                    email,
+                    pwd
+                )
     if error:
         return JsonResponse({"status": 400, "error_msg": error}, status=400)
 
@@ -103,7 +109,10 @@ def follow_user(request, username):
     update_latest(request)
 
     if request.method == "POST":
-        user = User.objects.get(username=username)
+        try:
+            user = User.objects.get(username=username)
+        except:
+            return JsonResponse({'status': 404, 'error_msg': "User not found"}, status=404)
         try:
             user_follow = json.loads(request.body)["follow"]
             follower = User.objects.get(username=user_follow)
@@ -111,11 +120,20 @@ def follow_user(request, username):
         except:
             user_follow = json.loads(request.body)["unfollow"]
             follower = User.objects.get(username=user_follow)
-            models.Follower.objects.filter(who_id=user, whom_id=follower).get().delete()
-
+            try:
+                models.Follower.objects.filter(
+                    who_id=user,
+                    whom_id=follower
+                ).get().delete()
+            except:
+                logging.error("Followed user not found")
+                return JsonResponse({'status': 404, 'error_msg': "Followed user not found"}, status=404)
     elif request.method == "GET":
-        amount = int(request.GET.get("no", 100))
-        user = User.objects.get(username=username)
+        amount = int(request.GET.get('no', 100))
+        try:
+            user = User.objects.get(username=username)
+        except:
+            return JsonResponse({'status': 404, 'error_msg': "User not found"}, status=404)
         followers = models.Follower.objects.filter(who_id=user).values()
         followers = [dict(follow) for follow in list(followers)]
         followers = followers[:amount]
