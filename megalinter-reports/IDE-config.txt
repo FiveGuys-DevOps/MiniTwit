@@ -1,0 +1,271 @@
+MegaLinter can help you to define the same linter configuration locally
+
+INSTRUCTIONS
+
+- Copy the content of IDE-config folder at the root of your repository
+- if you are using Visual Studio Code, just reopen your project after the copy, and you will be prompted to install recommended extensions
+- If not, you can install extensions manually using the following links.
+
+IDE EXTENSIONS APPLICABLE TO YOUR PROJECT
+
+shellcheck (BASH)
+  - atom:
+    - linter-shellcheck: https://github.com/AtomLinter/linter-shellcheck
+  - emacs:
+    - flycheck: https://github.com/flycheck/flycheck
+    - flymake-shellcheck: https://github.com/federicotdn/flymake-shellcheck
+  - sublime:
+    - SublimeLinter-shellcheck: https://github.com/SublimeLinter/SublimeLinter-shellcheck
+  - vim:
+    - ale: https://github.com/w0rp/ale
+    - neomake: https://github.com/neomake/neomake
+    - syntastic: https://github.com/scrooloose/syntastic
+  - vscode:
+    - vscode-shellcheck: https://marketplace.visualstudio.com/items?itemName=timonwong.shellcheck
+
+shfmt (BASH)
+  - atom:
+    - format-shell: https://atom.io/packages/format-shell
+  - emacs:
+    - emacs-shfmt: https://github.com/purcell/emacs-shfmt/
+  - idea:
+    - shell-scripts: https://www.jetbrains.com/help/idea/shell-scripts.html
+  - micro:
+    - micro: https://micro-editor.github.io/
+  - sublime:
+    - Sublime-Pretty-Shell: https://github.com/aerobounce/Sublime-Pretty-Shell
+  - vim:
+    - vim-shfmt: https://github.com/z0mbix/vim-shfmt
+  - vscode:
+    - shell-format: https://marketplace.visualstudio.com/items?itemName=foxundermoon.shell-format
+
+stylelint (CSS)
+  - atom:
+    - linter-stylelint: https://github.com/AtomLinter/linter-stylelint
+  - emacs:
+    - flycheck: https://github.com/flycheck/flycheck
+  - sublime:
+    - SublimeLinter-stylelint: https://github.com/SublimeLinter/SublimeLinter-stylelint
+    - SublimeLinter-contrib-stylelint_d: https://github.com/jo-sm/SublimeLinter-contrib-stylelint_d
+  - vim:
+    - ale: https://github.com/dense-analysis/ale
+  - vscode:
+    - vscode-stylelint: https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint
+
+hadolint (DOCKERFILE)
+  - atom:
+    - linter-hadolint: https://atom.io/packages/linter-hadolint
+  - vscode:
+    - hadolint: https://marketplace.visualstudio.com/items?itemName=exiasr.hadolint
+
+djlint (HTML)
+  - sublime:
+    - SublimeLinter-contrib-djlint: https://packagecontrol.io/packages/SublimeLinter-contrib-djlint
+  - vscode:
+    - djlint-vscode: https://marketplace.visualstudio.com/items?itemName=monosans.djlint
+
+htmlhint (HTML)
+  - atom:
+    - atom-htmlhint: https://github.com/htmlhint/atom-htmlhint
+  - brackets:
+    - brackets-htmlhint: https://github.com/htmlhint/brackets-htmlhint
+  - sublime:
+    - SublimeLinter-contrib-htmlhint: https://github.com/htmlhint/SublimeLinter-contrib-htmlhint
+  - vscode:
+    - vscode-htmlhint: https://marketplace.visualstudio.com/items?itemName=HTMLHint.vscode-htmlhint
+
+eslint-plugin-jsonc (JSON)
+  - vscode:
+    - vscode-eslint: https://github.com/ota-meshi/eslint-plugin-jsonc#visual-studio-code
+
+prettier (JSON)
+  - atom:
+    - prettier-atom: https://github.com/prettier/prettier-atom
+    - atom-mprettier: https://github.com/t9md/atom-mprettier
+    - atom-miniprettier: https://github.com/duailibe/atom-miniprettier
+  - emacs:
+    - prettier-emacs: https://github.com/prettier/prettier-emacs
+    - prettier.el: https://github.com/jscheid/prettier.el
+    - apheleia: https://github.com/raxod502/apheleia
+  - idea:
+    - native support: https://prettier.io/docs/en/webstorm.html
+  - sublime:
+    - JsPrettier: https://packagecontrol.io/packages/JsPrettier
+  - vim:
+    - vim-prettier: https://github.com/prettier/vim-prettier
+  - visual_studio:
+    - JavaScriptPrettier: https://github.com/madskristensen/JavaScriptPrettier
+  - vscode:
+    - prettier-vscode: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
+
+v8r (JSON)
+  - eclipse:
+    - native support: https://www.eclipse.org/
+  - idea:
+    - native support: https://www.jetbrains.com/products/#type=ide
+  - vim:
+    - vison: https://github.com/Quramy/vison
+  - vscode:
+    - native support: https://code.visualstudio.com/
+
+markdownlint (MARKDOWN)
+  - atom:
+    - linter-node-markdownlint: https://atom.io/packages/linter-node-markdownlint
+  - sublime:
+    - SublimeLinter-contrib-markdownlint: https://packagecontrol.io/packages/SublimeLinter-contrib-markdownlint
+  - vim:
+    - coc-markdownlint: https://github.com/fannheyward/coc-markdownlint
+  - vscode:
+    - vscode-markdownlint: https://marketplace.visualstudio.com/items/DavidAnson.vscode-markdownlint
+
+markdown-table-formatter (MARKDOWN)
+  - vscode:
+    - Markdown Table Prettify Extension: https://github.com/darkriszty/MarkdownTablePrettify-VSCodeExt
+
+bandit (PYTHON)
+  - atom:
+    - bandit-lint: https://atom.io/packages/bandit-lint
+  - sublime:
+    - SublimeLinter-bandit: https://github.com/SublimeLinter/SublimeLinter-bandit
+  - vscode:
+    - Native Support: https://code.visualstudio.com/docs/python/linting#_bandit
+
+black (PYTHON)
+  - atom:
+    - python-black: https://atom.io/packages/python-black
+  - emacs:
+    - blacken: https://github.com/pythonic-emacs/blacken
+    - reformatter.el: https://github.com/purcell/reformatter.el
+    - elpy: https://github.com/jorgenschaefer/elpy
+  - idea:
+    - black: https://black.readthedocs.io/en/stable/editor_integration.html#pycharm-intellij-idea
+  - sublime:
+    - sublack: https://github.com/jgirardet/sublack
+  - vscode:
+    - VSCode Python Extension: https://marketplace.visualstudio.com/items?itemName=ms-python.python
+
+flake8 (PYTHON)
+  - atom:
+    - linter-flake8: https://atom.io/packages/linter-flake8
+  - idea:
+    - flake8-support: https://plugins.jetbrains.com/plugin/11563-flake8-support
+  - vscode:
+    - Native Support: https://code.visualstudio.com/docs/python/linting#_flake8
+
+isort (PYTHON)
+  - atom:
+    - atom-python-isort: https://github.com/bh/atom-python-isort
+    - atom-isort: https://atom.io/packages/atom-isort
+  - emacs:
+    - py-isort.el: https://github.com/paetzke/py-isort.el
+  - sublime:
+    - isort plugin: https://github.com/jcugat/sublime-text-isort-plugin#install
+  - vim:
+    - ale: https://github.com/w0rp/ale
+    - vim-isort: https://github.com/fisadev/vim-isort#installation
+  - vscode:
+    - VSCode Python Extension: https://github.com/Microsoft/vscode-python
+
+mypy (PYTHON)
+  - atom:
+    - linter-mypy: https://atom.io/packages/linter-mypy
+  - emacs:
+    - Flycheck mypy: https://github.com/lbolla/emacs-flycheck-mypy
+  - idea:
+    - mypy-official: https://plugins.jetbrains.com/plugin/13348-mypy-official-/
+  - sublime:
+    - SublimeLinter-contrib-mypy: https://github.com/fredcallaway/SublimeLinter-contrib-mypy
+  - vim:
+    - Ale: https://github.com/dense-analysis/ale
+    - Syntastic: https://github.com/vim-syntastic/syntastic
+  - vscode:
+    - Mypy: https://marketplace.visualstudio.com/items?itemName=matangover.mypy
+
+pylint (PYTHON)
+  - eclipse:
+    - PyLint: https://pydev.org/manual_adv_pylint.html
+  - idea:
+    - PyCharm (Native Support): https://www.jetbrains.com/pycharm/
+  - vim:
+    - pylint.vim: https://www.vim.org/scripts/script.php?script_id=891
+  - visual_studio:
+    - Native Support: https://docs.microsoft.com/fr-fr/visualstudio/python/linting-python-code?view=vs-2019
+  - vscode:
+    - Native Support: https://code.visualstudio.com/docs/python/linting#_pylint
+
+pyright (PYTHON)
+  - emacs:
+    - LSP-pyright: https://github.com/emacs-lsp/lsp-pyright
+  - sublime:
+    - LSP-pyright: https://packagecontrol.io/packages/LSP-pyright
+  - vim:
+    - Ale: https://github.com/dense-analysis/ale
+    - coc-pyright: https://github.com/fannheyward/coc-pyright
+  - vscode:
+    - PyRight: https://marketplace.visualstudio.com/items?itemName=ms-pyright.pyright
+
+ruff (PYTHON)
+  - idea:
+    - Ruff: https://plugins.jetbrains.com/plugin/20574-ruff
+  - vscode:
+    - Ruff: https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff
+
+checkov (REPOSITORY)
+  - vscode:
+    - Checkov: https://marketplace.visualstudio.com/items?itemName=Bridgecrew.checkov
+
+devskim (REPOSITORY)
+  - vscode:
+    - VSCode DevSkim: https://marketplace.visualstudio.com/items?itemName=MS-CST-E.vscode-devskim
+
+trivy (REPOSITORY)
+  - vscode:
+    - VSCode Trivy: https://marketplace.visualstudio.com/items?itemName=AquaSecurityOfficial.trivy-vulnerability-scanner
+
+cspell (SPELL)
+  - vscode:
+    - Code Spell Checker: https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker
+
+sql-lint (SQL)
+  - vim:
+    - ale: https://github.com/dense-analysis/ale/
+
+tsqllint (SQL)
+  - vscode:
+    - TSQL Lint: https://marketplace.visualstudio.com/items?itemName=tsqllint.tsqllint
+
+prettier (YAML)
+  - atom:
+    - prettier-atom: https://github.com/prettier/prettier-atom
+    - atom-mprettier: https://github.com/t9md/atom-mprettier
+    - atom-miniprettier: https://github.com/duailibe/atom-miniprettier
+  - emacs:
+    - prettier-emacs: https://github.com/prettier/prettier-emacs
+    - prettier.el: https://github.com/jscheid/prettier.el
+    - apheleia: https://github.com/raxod502/apheleia
+  - idea:
+    - native support: https://prettier.io/docs/en/webstorm.html
+  - sublime:
+    - JsPrettier: https://packagecontrol.io/packages/JsPrettier
+  - vim:
+    - vim-prettier: https://github.com/prettier/vim-prettier
+  - visual_studio:
+    - JavaScriptPrettier: https://github.com/madskristensen/JavaScriptPrettier
+  - vscode:
+    - prettier-vscode: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
+
+v8r (YAML)
+  - eclipse:
+    - native support: https://www.eclipse.org/
+  - idea:
+    - native support: https://www.jetbrains.com/products/#type=ide
+  - vim:
+    - vison: https://github.com/Quramy/vison
+  - vscode:
+    - native support: https://code.visualstudio.com/
+
+yamllint (YAML)
+  - emacs:
+    - flycheck: https://github.com/krzysztof-magosa/flycheck-yamllint
+  - vim:
+    - ale: https://github.com/w0rp/ale

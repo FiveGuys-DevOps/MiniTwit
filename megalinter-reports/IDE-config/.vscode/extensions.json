@@ -1,0 +1,20 @@
+{
+    "recommendations": [
+        "streetsidesoftware.code-spell-checker",
+        "charliermarsh.ruff",
+        "AquaSecurityOfficial.trivy-vulnerability-scanner",
+        "ms-pyright.pyright",
+        "tsqllint.tsqllint",
+        "stylelint.vscode-stylelint",
+        "matangover.mypy",
+        "exiasr.hadolint",
+        "HTMLHint.vscode-htmlhint",
+        "esbenp.prettier-vscode",
+        "Bridgecrew.checkov",
+        "foxundermoon.shell-format",
+        "monosans.djlint",
+        "ms-python.python",
+        "MS-CST-E.vscode-devskim",
+        "timonwong.shellcheck"
+    ]
+}
