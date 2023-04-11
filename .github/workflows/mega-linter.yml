@@ -3,7 +3,7 @@
 # More info at https://megalinter.io
 name: MegaLinter
 
-permissions: read-all|write-all
+permissions: write-all
 
 on:
   # Trigger mega-linter at every push. Action will also be visible from Pull Requests to master
