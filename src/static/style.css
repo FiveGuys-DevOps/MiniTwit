@@ -19,8 +19,7 @@ input[type="password"] {
     padding: 2px;
     font-family: 'Trebuchet MS', sans-serif;
     font-size: 14px;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
+    border-radius: 2px;
     color: #105751;
 }
 
@@ -31,8 +30,7 @@ input[type="submit"] {
     font-family: 'Trebuchet MS', sans-serif;
     font-size: 14px;
     font-weight: bold;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
+    border-radius: 2px;
     color: white;
 }
 
@@ -69,7 +67,7 @@ div.page div.navigation a {
 }
 
 div.page h2 {
-    margin: 0 0 15px 0;
+    margin: 0 0 15px;
     color: #105751;
     text-shadow: 0 1px 2px #ccc;
 }
@@ -88,8 +86,7 @@ div.page div.footer {
 div.page div.followstatus {
     border: 1px solid #ccc;
     background: #E3EBEA;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
+    border-radius: 2px;
     padding: 3px;
     font-size: 13px;
 }
@@ -105,8 +102,7 @@ div.page ul.messages li {
     padding: 5px;
     background: #F0FAF9;
     border: 1px solid #DBF3F1;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
+    border-radius: 5px;
     min-height: 48px;
 }
 
@@ -129,8 +125,7 @@ div.page div.twitbox {
     padding: 5px;
     background: #F0FAF9;
     border: 1px solid #94E2DA;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
+    border-radius: 5px;
 }
 
 div.page div.twitbox h3 {
@@ -154,15 +149,14 @@ div.page div.twitbox input[type="submit"] {
 
 ul.flashes {
     list-style: none;
-    margin: 10px 10px 0 10px;
+    margin: 10px 10px 0;
     padding: 0;
 }
 
 ul.flashes li {
     background: #B9F3ED;
     border: 1px solid #81CEC6;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
+    border-radius: 2px;
     padding: 4px;
     font-size: 13px;
 }
@@ -171,8 +165,7 @@ div.error {
     margin: 10px 0;
     background: #FAE4E4;
     border: 1px solid #DD6F6F;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
+    border-radius: 2px;
     padding: 4px;
     font-size: 13px;
 }

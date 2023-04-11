@@ -25,7 +25,6 @@ services:
       db:
         condition: service_healthy
 
-
   db:
     image: postgres:15.2
     container_name: db
@@ -61,13 +60,13 @@ services:
     volumes:
       - grafana-storage:/var/lib/grafana
     ports:
-      - 3000:3000  
+      - 3000:3000
     networks:
       - djangonetwork
 
 networks:
   djangonetwork:
-      driver: bridge
+    driver: bridge
 
 volumes:
   database:

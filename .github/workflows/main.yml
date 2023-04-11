@@ -72,7 +72,7 @@ jobs:
         run: rsync -Pav -e "ssh -i ~/.ssh/do_ssh_key.key" --no-perms --no-owner --no-group tools/* root@46.101.250.219:/vagrant/tools/
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
-      
+
       - name: Deploy to server
         run: ssh root@46.101.250.219 -i ~/.ssh/do_ssh_key.key 'chmod 777 /vagrant/tools/* && /vagrant/tools/deploy.sh'
         env:

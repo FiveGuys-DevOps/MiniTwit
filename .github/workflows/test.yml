@@ -13,10 +13,17 @@ jobs:
 
       - name: Start server
         run: docker compose up --build -d --wait
-      
+
       - name: Simulation test
         run: docker compose up simulator --build
 
+      - name: Snyk on minitwit-server
+        uses: snyk/actions/docker@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          image: minitwit-server
+          args: --severity-threshold=high
+
       - name: Cleanup
         run: docker compose down
-

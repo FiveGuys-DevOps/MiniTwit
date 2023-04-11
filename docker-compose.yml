@@ -20,7 +20,7 @@ services:
         python3 ./manage.py migrate --run-syncdb
         python3 ./manage.py collectstatic -n
         python3 ./manage.py runserver 0.0.0.0:5000
-        
+
     networks:
       - djangonetwork
     links:
@@ -65,8 +65,8 @@ services:
       - djangonetwork
     depends_on:
       server:
-        condition: service_started 
+        condition: service_started
 
 networks:
   djangonetwork:
-      driver: bridge
+    driver: bridge
