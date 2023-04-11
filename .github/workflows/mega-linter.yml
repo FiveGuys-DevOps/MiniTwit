@@ -18,6 +18,8 @@ env: # Comment env block if you do not want to apply fixes
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
+  
+permissions: read-all|write-all
 
 jobs:
   build:
