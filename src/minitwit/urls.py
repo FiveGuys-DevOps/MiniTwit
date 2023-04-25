@@ -37,6 +37,5 @@ urlpatterns = [
     path("sim/", include(sim.urls)),
     path("<str:username>", views.user_timeline, name="user_timeline"),
     path("<str:username>/<int:amount>", views.user_timeline, name="user_timeline"),
-
     path("silk/", include("silk.urls", namespace="silk")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
