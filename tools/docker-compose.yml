@@ -19,29 +19,6 @@ services:
         python3 ./manage_prod.py runserver 0.0.0.0:5000 --insecure
     networks:
       - djangonetwork
-    links:
-      - db:db
-    depends_on:
-      db:
-        condition: service_healthy
-
-  db:
-    image: postgres:15.2
-    container_name: db
-    restart: always
-    volumes:
-      - database:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: db
-    networks:
-      - djangonetwork
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   prometheus:
     image: prom/prometheus
@@ -69,8 +46,6 @@ networks:
     driver: bridge
 
 volumes:
-  database:
-    external: true
   logs-storage:
     external: true
   grafana-storage:
