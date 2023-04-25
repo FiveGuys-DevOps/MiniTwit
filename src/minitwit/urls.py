@@ -23,9 +23,10 @@ from django.urls import include, path
 from . import sim
 
 urlpatterns = [
-    path("", views.timeline, name="init_timeline"),
+    path("", views.front_page_timeline, name="init_timeline"),
     path("", include("django_prometheus.urls")),
-    path("timeline", views.timeline, name="timeline"),
+    path("timeline/<int:amount>", views.main_timeline, name="timeline"),
+    path("public/<int:amount>", views.public_timeline, name="public"),
     path("public", views.public_timeline, name="public"),
     path("login", views.login, name="login"),
     path("logout", views.logout, name="logout"),
@@ -35,5 +36,7 @@ urlpatterns = [
     path("fllws/<str:username>", views.follow_user),
     path("sim/", include(sim.urls)),
     path("<str:username>", views.user_timeline, name="user_timeline"),
+    path("<str:username>/<int:amount>", views.user_timeline, name="user_timeline"),
+
     path("silk/", include("silk.urls", namespace="silk")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

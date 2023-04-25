@@ -43,7 +43,7 @@ def format_datetime(timestamp):
 
 ### Views
 # /, /public
-def timeline(request):
+def timeline(request,path,amount = PER_PAGE):
     """Shows a users timeline or if no user is logged in it will
     redirect to the public timeline.  This timeline shows the user's
     messages as well as all the messages of followed users.
@@ -66,13 +66,13 @@ def timeline(request):
     for follower in followers:
         print(follower)
         follower_messages = unflagged.filter(user__id=follower["whom_id_id"])[
-            :PER_PAGE
+            :amount
         ].values()
         messages.extend(follower_messages)
 
     # Add the messages of the user
     print(messages)
-    user_messages = unflagged.filter(user__id=request.user.id)[:PER_PAGE].values()
+    user_messages = unflagged.filter(user__id=request.user.id)[:amount].values()
     messages.extend(user_messages)
 
     # Convert to list of dicts
@@ -83,16 +83,27 @@ def timeline(request):
 
     context = {
         "messages": messages,
+        "amount": PER_PAGE + amount,
+        "test": path
     }
     return render(request, "../templates/timeline.html", context)
 
+def front_page_timeline(request):
+    return timeline(request, "/timeline")
 
-def public_timeline(request):
+
+def main_timeline(request,amount = PER_PAGE):
+    return timeline(request, "/timeline", amount = amount)
+
+
+
+
+def public_timeline(request,amount = PER_PAGE):
     """Displays the latest messages of all users."""
     # Fetch all messages
     messages = (
         models.Message.objects.filter(flagged=0)
-        .order_by("-pub_date")[:PER_PAGE]
+        .order_by("-pub_date")[:amount]
         .values()
     )
 
@@ -106,11 +117,13 @@ def public_timeline(request):
 
     context = {
         "messages": messages,
+        "amount": amount + PER_PAGE,
+        "test": "/public"
     }
     return render(request, "../templates/timeline.html", context)
 
 
-def user_timeline(request, username):
+def user_timeline(request, username, amount = PER_PAGE):
     try:
         # We do we not use filter
         user = User.objects.get(username=username)
@@ -127,7 +140,7 @@ def user_timeline(request, username):
     # Fetch all messages
     messages = (
         models.Message.objects.filter(user__id=user.id)
-        .order_by("-pub_date")[:PER_PAGE]
+        .order_by("-pub_date")[:amount]
         .values()
     )
 
@@ -144,6 +157,8 @@ def user_timeline(request, username):
         "messages": messages,
         "followed": followed,
         "profile_user": user,
+        "test": f"/{username}",
+        "amount": amount + PER_PAGE
     }
     return render(request, "../templates/timeline.html", context)
 
@@ -254,3 +269,16 @@ def add_message(request):
     else:
         return HttpResponseNotFound("User not logged in")
     return redirect("public")
+
+from django.http import HttpResponse
+
+def load_more_messages(request, last_message_id):
+    # get the next 10 messages after the last message ID
+    messages = models.Message.objects.filter(id__gt=last_message_id).order_by('-pub_date')[:10]
+
+    # render the new messages as HTML'
+    message_html = render(request, 'message_list.html', {'messages': messages}).content
+
+    # return the new messages as an AJAX response
+    return HttpResponse(message_html)
+
