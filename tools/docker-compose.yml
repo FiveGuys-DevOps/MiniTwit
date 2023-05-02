@@ -1,9 +1,30 @@
 version: "3.8"
 
 services:
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - djangonetwork
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+  
+  loadbalancer:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - /loadbalancer:/etc/nginx/conf.d
+    deploy:
+      replicas: 1
+
   server:
-    image: ${DOCKER_USERNAME}/minitwitimage
-    container_name: minitwit
+    image: tjuppen/minitwitimage
     ports:
       - 5000:5000
     restart: always
@@ -19,28 +40,34 @@ services:
         python3 ./manage_prod.py runserver 0.0.0.0:5000 --insecure
     networks:
       - djangonetwork
+    deploy:
+      replicas: 1
 
-  prometheus:
-    image: prom/prometheus
-    restart: always
-    volumes:
-      - prometheus-storage:/prometheus
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - 9090:9090
-    networks:
-      - djangonetwork
+  # prometheus:
+  #   image: prom/prometheus
+  #   restart: always
+  #   volumes:
+  #     - prometheus-storage:/prometheus
+  #     - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  #   ports:
+  #     - 9090:9090
+  #   networks:
+  #     - djangonetwork
+  #   deploy:
+  #     replicas: 1
 
-  grafana:
-    image: grafana/grafana:4.5.2
-    restart: always
-    volumes:
-      - grafana-storage:/var/lib/grafana
-    ports:
-      - 3000:3000
-    networks:
-      - djangonetwork
-
+  # grafana:
+  #   image: grafana/grafana:4.5.2
+  #   restart: always
+  #   volumes:
+  #     - grafana-storage:/var/lib/grafana
+  #   ports:
+  #     - 3000:3000
+  #   networks:
+  #     - djangonetwork
+  #   deploy:
+  #     replicas: 1
+  
 networks:
   djangonetwork:
     driver: bridge
@@ -48,7 +75,7 @@ networks:
 volumes:
   logs-storage:
     external: true
-  grafana-storage:
-    external: true
-  prometheus-storage:
-    external: true
+  # grafana-storage:
+  #   external: true
+  # prometheus-storage:
+  #   external: true
