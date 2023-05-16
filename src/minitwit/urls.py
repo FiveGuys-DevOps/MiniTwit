@@ -38,5 +38,5 @@ urlpatterns = [
     path("<str:username>", views.user_timeline, name="user_timeline"),
     path("<str:username>/<int:amount>", views.user_timeline, name="user_timeline"),
     path("silk/", include("silk.urls", namespace="silk")),
-    path('logs/', include('log_viewer.urls')),
+    path("logs/", include("log_viewer.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
