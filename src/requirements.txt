@@ -1,4 +1,4 @@
-Flask==2.1.1
+Flask==2.2.5
 Werkzeug==2.2.3
 Django==4.1.7
 tzdata==2022.7
