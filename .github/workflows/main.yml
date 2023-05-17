@@ -41,8 +41,8 @@ jobs:
           context: "{{defaultContext}}:src"
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/minitwitimage:latest
-          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache,mode=max
+          # cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache
+          # cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache,mode=max
 
       - name: Configure SSH
         run: |
