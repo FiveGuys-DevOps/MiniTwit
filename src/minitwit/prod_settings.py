@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "minitwit",
     "silk",
-    "django-log-viewer",
+    "log_viewer",
     # 'django_prometheus',
 ]
 
