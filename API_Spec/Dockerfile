@@ -1,6 +1,6 @@
 ### BUILD THE IMAGE
 # Use ubuntu image https://hub.docker.com/_/ubuntu
-FROM ubuntu:22.04
+FROM ubuntu:kinetic
 
 # Install python 3.10 & pip
 RUN apt update
