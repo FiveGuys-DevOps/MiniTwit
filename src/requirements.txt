@@ -1,4 +1,4 @@
-Django==4.1.7
+Django==4.2.20
 tzdata==2022.7
 django-prometheus==2.2.0
 prometheus-client==0.7.1
